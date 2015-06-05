@@ -39,7 +39,7 @@ class MLP:
 
 
 	def train(self, lrate=0.001, iters=10):
-		for i in range(500):
+		for i in range(iters):
 			hidden, output = self.forward()
 			hidden_error, output_error = self.backward(hidden, output)
 			Wih_new, Who_out = self.gradient_step(hidden_error, output_error, hidden, output, lrate)
