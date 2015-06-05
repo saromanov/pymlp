@@ -10,7 +10,7 @@ class MLP:
 		self.y = y
 		self.Wih = np.random.random((x.shape[1], num_hid))
 		self.Woh = np.random.random((num_hid, num_out))
-		self.bias = np.random.random(num_hid)
+		self.bias = np.random.random((num_hid,))
 
 	def forward(self, item=None):
 		inp = item
@@ -37,14 +37,17 @@ class MLP:
 		return lrate * np.dot(hidden_error.T, self.x), \
 			   lrate * np.dot(output_error.T, hidden)
 
+	def _update_weights(self, Wih_new, Woh_new):
+		self.Wih -= Wih_new
+		self.Woh -= Who_out
+
 
 	def train(self, lrate=0.001, iters=10):
 		for i in range(iters):
 			hidden, output = self.forward()
 			hidden_error, output_error = self.backward(hidden, output)
 			Wih_new, Who_out = self.gradient_step(hidden_error, output_error, hidden, output, lrate)
-			self.Wih -= Wih_new.T
-			self.Woh -= Who_out.T
+			self._update_weights()
 
 	def predict(self, values):
 		hidden, output = self.forward(values)
